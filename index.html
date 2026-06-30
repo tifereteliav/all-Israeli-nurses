@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>סימולטור חדר בקרה: אתיקה, הלכה ו-AI בסיעוד</title>
+  <meta name="description" content="משחק סיכום והערכה אינטראקטיבי המשלב דילמות של בינה מלאכותית, אתיקה רפואית והלכה קלינית בכנס האחיות.">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <div id="app-container">
+    
+    <!-- Top HUD Header -->
+    <header>
+      <div class="hud-title" id="hud-header-title">
+        <span style="font-size: 1.4rem;">⚙</span>
+        <span>CLINICAL AI MONITOR v3.5</span>
+      </div>
+      <div class="hud-status" id="hud-header-status">
+        <span class="pulse-dot"></span>
+        <span>חיבור תקין לשרת הבקרה</span>
+      </div>
+    </header>
+
+    <!-- Main Grid Layout -->
+    <div class="dashboard-grid">
+      
+      <!-- Sidebar Vitals & Timeline Panel -->
+      <aside class="vitals-panel">
+        
+        <!-- Live EKG Monitor -->
+        <div class="vitals-section">
+          <div class="section-title">מוניטור דופק קליני</div>
+          <div class="ekg-container">
+            <canvas id="ekg-canvas"></canvas>
+          </div>
+        </div>
+
+        <!-- Gauges / Stats -->
+        <div class="vitals-section">
+          <div class="section-title">מדדי מערכת חיוניים</div>
+          <div class="gauge-list">
+            
+            <div class="gauge-item">
+              <div class="gauge-header">
+                <span id="ai-val">50%</span>
+                <span>ביטחון ה-AI (דיוק)</span>
+              </div>
+              <div class="gauge-bar-outer">
+                <div class="gauge-bar-inner gauge-ai" id="ai-bar" style="width: 50%;"></div>
+              </div>
+            </div>
+
+            <div class="gauge-item">
+              <div class="gauge-header">
+                <span id="ethics-val">50%</span>
+                <span>אתיקה והלכה</span>
+              </div>
+              <div class="gauge-bar-outer">
+                <div class="gauge-bar-inner gauge-ethics" id="ethics-bar" style="width: 50%;"></div>
+              </div>
+            </div>
+
+            <div class="gauge-item">
+              <div class="gauge-header">
+                <span id="safety-val">50%</span>
+                <span>בטיחות המטופל</span>
+              </div>
+              <div class="gauge-bar-outer">
+                <div class="gauge-bar-inner gauge-safety" id="safety-bar" style="width: 50%;"></div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Conference Tracker Timeline -->
+        <div class="vitals-section">
+          <div class="section-title">תוכנית הכנס וסדר היום</div>
+          <div class="timeline-tracker" id="timeline-box">
+            
+            <div class="timeline-node" id="node-stage-1">
+              <div class="node-time">09:10</div>
+              <div class="node-dot"></div>
+              <div class="node-info">
+                <h4>פתיחה: הרצאת מבוא</h4>
+                <p>אתיקה, הלכה ו-AI בסיעוד</p>
+              </div>
+            </div>
+
+            <div class="timeline-node" id="node-stage-2">
+              <div class="node-time">10:10</div>
+              <div class="node-dot"></div>
+              <div class="node-info">
+                <h4>מושב ראשון</h4>
+                <p>סיעוד דיגיטלי חכם - AI</p>
+              </div>
+            </div>
+
+            <div class="timeline-node" id="node-stage-3">
+              <div class="node-time">11:20</div>
+              <div class="node-dot"></div>
+              <div class="node-info">
+                <h4>מושב שני</h4>
+                <p>הלכה למעשה בטיפול הרפואי</p>
+              </div>
+            </div>
+
+            <div class="timeline-node" id="node-stage-4">
+              <div class="node-time">12:10</div>
+              <div class="node-dot"></div>
+              <div class="node-info">
+                <h4>מושב שלישי</h4>
+                <p>קבלת החלטות תחת עומס</p>
+              </div>
+            </div>
+
+            <div class="timeline-node" id="node-stage-5">
+              <div class="node-time">13:00</div>
+              <div class="node-dot"></div>
+              <div class="node-info">
+                <h4>פאנל סיכום</h4>
+                <p>דיון, שאלות וקשר עתידי</p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </aside>
+
+      <!-- Center Content Viewport -->
+      <main class="simulation-viewport">
+        <div class="viewport-decorations"></div>
+        <div class="sim-content">
+
+          <!-- 1. Welcome / Start Screen -->
+          <div class="screen welcome-screen active" id="welcome-screen">
+            <h1 class="welcome-logo">NURSE AI</h1>
+            <p class="welcome-desc">
+              ברוכים הבאים לסימולטור חדר הבקרה האתי-קליני של כנס האחיות! 
+              מטרת הסימולטור היא לנווט בדילמות מורכבות של שילוב בינה מלאכותית, אתיקה רפואית והלכה למעשה. 
+              ההחלטות שתקבלו ישפיעו ישירות על המדדים ויכוונו אתכם להרצאות הבאות של סדר יום הכנס.
+            </p>
+            <div class="welcome-details">
+              <strong>הנחיות פיקוד:</strong>
+              <ul>
+                <li>הקפד לאזן בין התקדמות טכנולוגית (AI) לשלום המטופל (בטיחות קלינית) ולחוקיות (אתיקה והלכה).</li>
+                <li>אם אחד מהמדדים החיוניים יורד ל-0% - המערכת תקרוס ותיכשל.</li>
+                <li>כל תרחיש יקשר אותך ישירות למושב הבא בתוכנית הכנס. בהצלחה!</li>
+              </ul>
+            </div>
+            <button class="btn" id="start-btn">אתחל סימולציית בקרה</button>
+          </div>
+
+          <!-- 2. Scenario Screen -->
+          <div class="screen" id="scenario-screen">
+            <div class="scenario-card">
+              <span class="scenario-badge" id="scen-badge">קטגוריה</span>
+              <h2 class="scenario-title" id="scen-title">כותרת התרחיש</h2>
+              <p class="scenario-text" id="scen-text">תיאור הדילמה והתרחיש הקליני...</p>
+            </div>
+            <div class="choices-container" id="scen-choices">
+              <!-- Dynamically populated buttons -->
+            </div>
+          </div>
+
+          <!-- 3. Feedback Screen -->
+          <div class="screen" id="feedback-screen">
+            <div class="feedback-card">
+              <div class="feedback-status" id="fb-title">פקודה בוצעה</div>
+              <p class="feedback-text" id="fb-text">התוצאות וההשלכות של ההחלטה שלך על המחלקה הקלינית...</p>
+              
+              <div class="feedback-impacts" id="fb-impacts">
+                <!-- Impacts dynamically populated -->
+              </div>
+
+              <div class="conference-bridge-box" id="fb-bridge">
+                <h4 id="fb-bridge-title">הגשר למושב הבא בכנס:</h4>
+                <p id="fb-bridge-text">לוח זמנים הסבר...</p>
+              </div>
+
+              <div style="text-align: left;">
+                <button class="btn" id="next-stage-btn">המשך ללוח הזמנים</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- 4. Win / Complete Screen -->
+          <div class="screen result-screen" id="win-screen">
+            <h2 class="result-title success">סימולציית הבקרה הושלמה!</h2>
+            <p class="result-desc">
+              כל הכבוד! ניווטת בהצלחה דרך כל הדילמות האתיות וההלכתיות הקשות ביותר בכנס, ושמרת על איזון מושלם בין טכנולוגיה, אמונה ובטיחות המטופל.
+            </p>
+            
+            <div class="stats-summary">
+              <div class="stat-box">
+                <span class="stat-box-title">דיוק AI סופי</span>
+                <span class="stat-box-val ai" id="final-ai-win">50%</span>
+              </div>
+              <div class="stat-box">
+                <span class="stat-box-title">מדד אתיקה והלכה</span>
+                <span class="stat-box-val ethics" id="final-ethics-win">50%</span>
+              </div>
+              <div class="stat-box">
+                <span class="stat-box-title">בטיחות קלינית</span>
+                <span class="stat-box-val safety" id="final-safety-win">50%</span>
+              </div>
+            </div>
+
+            <!-- Call to action & Facebook Group Connect -->
+            <div class="qr-container">
+              <div class="qr-mockup" id="qr-code-holder">
+                <!-- Minimalistic glowing SVG QR code -->
+                <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M10 10H30V30H10V10ZM15 15V25H25V15H15Z" fill="#00e5ff"/>
+                  <path d="M70 10H90V30H70V10ZM75 15V25H85V15H75Z" fill="#00e5ff"/>
+                  <path d="M10 70H30V90H10V70ZM15 75V85H25V75H15Z" fill="#00e5ff"/>
+                  <rect x="18" y="18" width="4" height="4" fill="#00e5ff"/>
+                  <rect x="78" y="18" width="4" height="4" fill="#00e5ff"/>
+                  <rect x="18" y="78" width="4" height="4" fill="#00e5ff"/>
+                  <path d="M40 10H50V20H40V10ZM55 10H65V30H55V10ZM40 25H50V40H40V25ZM45 45H60V50H45V45Z" fill="#d500f9"/>
+                  <path d="M10 40H20V50H10V40ZM25 45H35V65H25V45ZM10 55H20V65H10V55ZM40 55H55V60H40V55Z" fill="#d500f9"/>
+                  <path d="M70 40H80V50H70V40ZM85 45H95V55H85V45ZM70 60H90V75H70V60ZM75 80H80V90H75V80ZM85 80H90V90H85V80Z" fill="#00e5ff"/>
+                  <path d="M40 70H50V90H40V70ZM55 70H65V85H55V70Z" fill="#d500f9"/>
+                </svg>
+              </div>
+              <div class="qr-info">
+                <h4>סרקו והצטרפו לקהילת האחיות!</h4>
+                <p>הצטרפו לקבוצת הפייסבוק **"כל האחיות בישראל"** בניהולו של נתנאל פוקסברומר להמשך דיונים, שיתוף ידע וקידום מקצועי.</p>
+              </div>
+            </div>
+
+            <button class="btn btn-secondary" id="restart-btn-win">שחק שוב</button>
+          </div>
+
+          <!-- 5. Fail / GameOver Screen -->
+          <div class="screen result-screen" id="fail-screen">
+            <h2 class="result-title fail">המערכת קרסה! קוד אדום!</h2>
+            <p class="result-desc">
+              אחד מהמדדים החיוניים ירד ל-0%. לא ניתן להמשיך להפעיל את ה-AI במחלקה ללא רמות בטיחות ואתיקה מינימליות. המטופלים או ערכי המקצוע נמצאים בסכנה.
+            </p>
+            
+            <div class="stats-summary">
+              <div class="stat-box">
+                <span class="stat-box-title">דיוק AI סופי</span>
+                <span class="stat-box-val ai" id="final-ai-fail">0%</span>
+              </div>
+              <div class="stat-box">
+                <span class="stat-box-title">מדד אתיקה והלכה</span>
+                <span class="stat-box-val ethics" id="final-ethics-fail">0%</span>
+              </div>
+              <div class="stat-box">
+                <span class="stat-box-title">בטיחות קלינית</span>
+                <span class="stat-box-val safety" id="final-safety-fail">0%</span>
+              </div>
+            </div>
+
+            <button class="btn" id="restart-btn-fail" style="background: linear-gradient(135deg, var(--neon-rose), #d500f9); color: #fff; box-shadow: var(--glow-rose);">אתחל מערכת בקרה מחדש</button>
+          </div>
+
+        </div>
+      </main>
+
+    </div>
+
+    <!-- Footer info -->
+    <footer>
+      <span>CONFERENCE DATE: 01.07.2026 // LOC: NEVE HORIM JERUSALEM</span>
+    </footer>
+
+  </div>
+
+  <script src="game.js"></script>
+</body>
+</html>
