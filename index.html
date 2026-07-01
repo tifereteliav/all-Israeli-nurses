@@ -3,30 +3,40 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>סימולטור חדר בקרה: אתיקה, הלכה ו-AI בסיעוד</title>
-  <meta name="description" content="משחק סיכום והערכה אינטראקטיבי המשלב דילמות של בינה מלאכותית, אתיקה רפואית והלכה קלינית בכנס האחיות.">
+  <title>אתיקה, הלכה ו-AI בסיעוד | חדר בריחה תלת-ממדי</title>
+  <meta name="description" content="חדר בריחה דיגיטלי תלת-ממדי אינטראקטיבי המבוסס על נושאי ההרצאה בכנס: אתיקה, הלכה וקידום בריאות בעידן הבינה המלאכותית.">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
+  <!-- Game Container -->
   <div id="app-container">
     
-    <!-- Top HUD Header -->
-    <header>
-      <div class="hud-title" id="hud-header-title">
-        <span style="font-size: 1.4rem;">⚙</span>
-        <span>CLINICAL AI MONITOR v3.5</span>
+    <!-- HUD Header -->
+    <header id="game-hud" class="hidden">
+      <div class="hud-item hud-title">
+        <span style="font-size: 1.2rem;">⚙️</span>
+        <span>AI CLINICAL DASHBOARD v4.0</span>
       </div>
-      <div class="hud-status" id="hud-header-status">
-        <span class="pulse-dot"></span>
-        <span>חיבור תקין לשרת הבקרה</span>
+      <div class="hud-item progress-tracker">
+        <span class="hud-label" style="margin-left: 8px;">מיקום במסדרון:</span>
+        <span id="current-door-indicator" class="hud-value" style="color: var(--neon-cyan); text-shadow: var(--glow-cyan); margin-left: 12px;">דלת 1 מתוך 8</span>
+        <div class="room-dots" id="hud-dots-container">
+          <!-- Dots generated in game.js -->
+        </div>
+      </div>
+      <div class="hud-item sound-control">
+        <button id="btn-toggle-sound" class="btn-icon" title="הפעל/השתק קול">
+          <svg id="svg-volume-on" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
+          <svg id="svg-volume-off" class="hidden" viewBox="0 0 24 24"><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.21.05-.42.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/></svg>
+        </button>
       </div>
     </header>
 
     <!-- Main Grid Layout -->
     <div class="dashboard-grid">
       
-      <!-- Sidebar Vitals & Timeline Panel -->
+      <!-- Sidebar Vitals & Schedule Panel -->
       <aside class="vitals-panel">
         
         <!-- Live EKG Monitor -->
@@ -39,7 +49,7 @@
 
         <!-- Gauges / Stats -->
         <div class="vitals-section">
-          <div class="section-title">מדדי מערכת חיוניים</div>
+          <div class="section-title">מדדי חדר הבקרה</div>
           <div class="gauge-list">
             
             <div class="gauge-item">
@@ -75,17 +85,17 @@
           </div>
         </div>
 
-        <!-- Conference Tracker Timeline -->
+        <!-- Timeline Tracker -->
         <div class="vitals-section">
-          <div class="section-title">תוכנית הכנס וסדר היום</div>
-          <div class="timeline-tracker" id="timeline-box">
+          <div class="section-title">תוכנית הכנס</div>
+          <div class="timeline-tracker">
             
             <div class="timeline-node" id="node-stage-1">
               <div class="node-time">09:10</div>
               <div class="node-dot"></div>
               <div class="node-info">
-                <h4>פתיחה: הרצאת מבוא</h4>
-                <p>אתיקה, הלכה ו-AI בסיעוד</p>
+                <h4>פתיחה והרצאה</h4>
+                <p>אתיקה, הלכה ו-AI ברפואה</p>
               </div>
             </div>
 
@@ -103,7 +113,7 @@
               <div class="node-dot"></div>
               <div class="node-info">
                 <h4>מושב שני</h4>
-                <p>הלכה למעשה בטיפול הרפואי</p>
+                <p>הלכה למעשה בטיפול</p>
               </div>
             </div>
 
@@ -112,7 +122,7 @@
               <div class="node-dot"></div>
               <div class="node-info">
                 <h4>מושב שלישי</h4>
-                <p>קבלת החלטות תחת עומס</p>
+                <p>קבלת החלטות אתיות</p>
               </div>
             </div>
 
@@ -130,134 +140,165 @@
 
       </aside>
 
-      <!-- Center Content Viewport -->
+      <!-- Center Viewport -->
       <main class="simulation-viewport">
-        <div class="viewport-decorations"></div>
         <div class="sim-content">
 
-          <!-- 1. Welcome / Start Screen -->
-          <div class="screen welcome-screen active" id="welcome-screen">
-            <h1 class="welcome-logo">NURSE AI</h1>
-            <p class="welcome-desc">
-              ברוכים הבאים לסימולטור חדר הבקרה האתי-קליני של כנס האחיות! 
-              מטרת הסימולטור היא לנווט בדילמות מורכבות של שילוב בינה מלאכותית, אתיקה רפואית והלכה למעשה. 
-              ההחלטות שתקבלו ישפיעו ישירות על המדדים ויכוונו אתכם להרצאות הבאות של סדר יום הכנס.
-            </p>
-            <div class="welcome-details">
-              <strong>הנחיות פיקוד:</strong>
-              <ul>
-                <li>הקפד לאזן בין התקדמות טכנולוגית (AI) לשלום המטופל (בטיחות קלינית) ולחוקיות (אתיקה והלכה).</li>
-                <li>אם אחד מהמדדים החיוניים יורד ל-0% - המערכת תקרוס ותיכשל.</li>
-                <li>כל תרחיש יקשר אותך ישירות למושב הבא בתוכנית הכנס. בהצלחה!</li>
-              </ul>
-            </div>
-            <button class="btn" id="start-btn">אתחל סימולציית בקרה</button>
-          </div>
-
-          <!-- 2. Scenario Screen -->
-          <div class="screen" id="scenario-screen">
-            <div class="scenario-card">
-              <span class="scenario-badge" id="scen-badge">קטגוריה</span>
-              <h2 class="scenario-title" id="scen-title">כותרת התרחיש</h2>
-              <p class="scenario-text" id="scen-text">תיאור הדילמה והתרחיש הקליני...</p>
-            </div>
-            <div class="choices-container" id="scen-choices">
-              <!-- Dynamically populated buttons -->
-            </div>
-          </div>
-
-          <!-- 3. Feedback Screen -->
-          <div class="screen" id="feedback-screen">
-            <div class="feedback-card">
-              <div class="feedback-status" id="fb-title">פקודה בוצעה</div>
-              <p class="feedback-text" id="fb-text">התוצאות וההשלכות של ההחלטה שלך על המחלקה הקלינית...</p>
+          <!-- 1. LOGIN SCREEN -->
+          <div class="screen welcome-screen active" id="screen-login">
+            <div class="glass-card login-card">
+              <div class="card-badge">כנס "כל ישראל אחים"</div>
+              <h1 class="game-logo">CLINICAL AI</h1>
+              <p style="font-size: 0.95rem; color: var(--text-muted); margin-bottom: 5px;">נא להזין את קוד הגישה שקיבלת כדי להתחיל בסימולציית הבקרה.</p>
               
-              <div class="feedback-impacts" id="fb-impacts">
-                <!-- Impacts dynamically populated -->
+              <div style="width: 100%;">
+                <input type="password" id="passcode-input" class="passcode-input" placeholder="🔒 קוד כניסה">
+                <div id="passcode-error-msg" class="error-msg hidden" style="margin-top: 10px;">קוד שגוי. רמז: שנת הכנס הנוכחית!</div>
               </div>
 
-              <div class="conference-bridge-box" id="fb-bridge">
-                <h4 id="fb-bridge-title">הגשר למושב הבא בכנס:</h4>
-                <p id="fb-bridge-text">לוח זמנים הסבר...</p>
-              </div>
-
-              <div style="text-align: left;">
-                <button class="btn" id="next-stage-btn">המשך ללוח הזמנים</button>
-              </div>
+              <button id="btn-submit-passcode" class="btn btn-primary btn-large" style="width: 100%;">כניסה לאתגר 🔓</button>
             </div>
           </div>
 
-          <!-- 4. Win / Complete Screen -->
-          <div class="screen result-screen" id="win-screen">
-            <h2 class="result-title success">סימולציית הבקרה הושלמה!</h2>
-            <p class="result-desc">
-              כל הכבוד! ניווטת בהצלחה דרך כל הדילמות האתיות וההלכתיות הקשות ביותר בכנס, ושמרת על איזון מושלם בין טכנולוגיה, אמונה ובטיחות המטופל.
-            </p>
-            
-            <div class="stats-summary">
-              <div class="stat-box">
-                <span class="stat-box-title">דיוק AI סופי</span>
-                <span class="stat-box-val ai" id="final-ai-win">50%</span>
+          <!-- 2. INTRO SCREEN -->
+          <div class="screen welcome-screen" id="screen-intro">
+            <div class="glass-card">
+              <div class="card-badge">אומדן קליני ותדרוך מפקד</div>
+              <h1 class="game-title" style="font-size: 1.8rem;">חדר בריחה: בקרה אתית בעידן ה-AI</h1>
+              <p class="game-subtitle">עזרי לאחות הראשית 'מתי' לנווט במסדרונות המרכז הרפואי, לפתור 8 דילמות אתיות ולפתוח את שערי המחלקות!</p>
+              
+              <div class="patient-briefing">
+                <h3>תיק בקרה רפואי: אבטחה, הלכה ו-AI</h3>
+                <div class="briefing-grid">
+                  <div>
+                    <strong>האתגר:</strong> מערכות בינה מלאכותית מוטמעות בכל פינה (חיזוי סיכונים, אבחון מלר"ד שיבא, כלים של אנתרופיק). אך עקב איומי סייבר ומגבלות אתיות, משרד הבריאות חסם את הגישה הישירה.
+                  </div>
+                  <div>
+                    <strong>המשימה:</strong> פתרי את 8 שערי הבקרה. חלק מהשערים דורשים <strong>בחירת דלת נכונה</strong> וחלקם דורשים <strong>פיצוח קוד מרובה אפשרויות</strong>.
+                  </div>
+                </div>
+                <p class="briefing-mission">
+                  <strong>קשר לכנס:</strong> כל שלב שתעברי מבוסס על מצגת ההרצאה שלך ומחבר אותנו למושבים הבאים של סדר היום.
+                </p>
               </div>
-              <div class="stat-box">
-                <span class="stat-box-title">מדד אתיקה והלכה</span>
-                <span class="stat-box-val ethics" id="final-ethics-win">50%</span>
-              </div>
-              <div class="stat-box">
-                <span class="stat-box-title">בטיחות קלינית</span>
-                <span class="stat-box-val safety" id="final-safety-win">50%</span>
-              </div>
-            </div>
 
-            <!-- Call to action & Facebook Group Connect -->
-            <div class="qr-container">
-              <div class="qr-mockup" id="qr-code-holder">
-                <!-- Minimalistic glowing SVG QR code -->
-                <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M10 10H30V30H10V10ZM15 15V25H25V15H15Z" fill="#00e5ff"/>
-                  <path d="M70 10H90V30H70V10ZM75 15V25H85V15H75Z" fill="#00e5ff"/>
-                  <path d="M10 70H30V90H10V70ZM15 75V85H25V75H15Z" fill="#00e5ff"/>
-                  <rect x="18" y="18" width="4" height="4" fill="#00e5ff"/>
-                  <rect x="78" y="18" width="4" height="4" fill="#00e5ff"/>
-                  <rect x="18" y="78" width="4" height="4" fill="#00e5ff"/>
-                  <path d="M40 10H50V20H40V10ZM55 10H65V30H55V10ZM40 25H50V40H40V25ZM45 45H60V50H45V45Z" fill="#d500f9"/>
-                  <path d="M10 40H20V50H10V40ZM25 45H35V65H25V45ZM10 55H20V65H10V55ZM40 55H55V60H40V55Z" fill="#d500f9"/>
-                  <path d="M70 40H80V50H70V40ZM85 45H95V55H85V45ZM70 60H90V75H70V60ZM75 80H80V90H75V80ZM85 80H90V90H85V80Z" fill="#00e5ff"/>
-                  <path d="M40 70H50V90H40V70ZM55 70H65V85H55V70Z" fill="#d500f9"/>
-                </svg>
-              </div>
-              <div class="qr-info">
-                <h4>סרקו והצטרפו לקהילת האחיות!</h4>
-                <p>הצטרפו לקבוצת הפייסבוק **"כל האחיות בישראל"** בניהולו של נתנאל פוקסברומר להמשך דיונים, שיתוף ידע וקידום מקצועי.</p>
-              </div>
+              <button id="btn-start-game" class="btn btn-primary btn-large" style="margin-top: 15px;">התחל את חדר הבריחה 🚪</button>
             </div>
-
-            <button class="btn btn-secondary" id="restart-btn-win">שחק שוב</button>
           </div>
 
-          <!-- 5. Fail / GameOver Screen -->
-          <div class="screen result-screen" id="fail-screen">
-            <h2 class="result-title fail">המערכת קרסה! קוד אדום!</h2>
-            <p class="result-desc">
-              אחד מהמדדים החיוניים ירד ל-0%. לא ניתן להמשיך להפעיל את ה-AI במחלקה ללא רמות בטיחות ואתיקה מינימליות. המטופלים או ערכי המקצוע נמצאים בסכנה.
-            </p>
-            
-            <div class="stats-summary">
-              <div class="stat-box">
-                <span class="stat-box-title">דיוק AI סופי</span>
-                <span class="stat-box-val ai" id="final-ai-fail">0%</span>
-              </div>
-              <div class="stat-box">
-                <span class="stat-box-title">מדד אתיקה והלכה</span>
-                <span class="stat-box-val ethics" id="final-ethics-fail">0%</span>
-              </div>
-              <div class="stat-box">
-                <span class="stat-box-title">בטיחות קלינית</span>
-                <span class="stat-box-val safety" id="final-safety-fail">0%</span>
-              </div>
-            </div>
+          <!-- 3. GAMEPLAY SCREEN (3D Rooms) -->
+          <div class="screen" id="screen-rooms">
+            <div class="glass-card">
+              
+              <!-- Split Layout: Slide (Left) and Scenario (Right) -->
+              <div class="gameplay-layout">
+                
+                <!-- Left: Interactive Slide Display -->
+                <div class="slide-viewer-box">
+                  <img id="slide-img" class="slide-img hidden" src="" alt="שקף הרצאה">
+                  <div id="slide-placeholder" class="slide-placeholder-glow">
+                    <span style="font-size: 1.8rem;">📡</span>
+                    <span>סורק אותות מצגת...</span>
+                  </div>
+                </div>
 
-            <button class="btn" id="restart-btn-fail" style="background: linear-gradient(135deg, var(--neon-rose), #d500f9); color: #fff; box-shadow: var(--glow-rose);">אתחל מערכת בקרה מחדש</button>
+                <!-- Right: Question & Context -->
+                <div class="scenario-panel">
+                  <div class="scenario-header">
+                    <span id="question-index-label" class="card-badge">אתגר 1</span>
+                  </div>
+                  <h2 class="scenario-title">טוען שאלה...</h2>
+                  <p id="question-text" class="scenario-text">טוען דילמה רפואית מההרצאה...</p>
+                </div>
+
+              </div>
+
+              <!-- Bottom: 3D Escape Room Box -->
+              <div class="room-3d" id="room-3d-container">
+                <div class="room-wall room-wall-left"></div>
+                <div class="room-wall room-wall-right"></div>
+                <div class="room-floor"></div>
+                <div class="room-ceiling"></div>
+                <div class="back-wall" id="doors-container">
+                  <!-- 3 Doors or Puzzle Board generated dynamically -->
+                </div>
+              </div>
+
+              <!-- Bottom: Feedback & Action -->
+              <div class="feedback-panel idles" id="feedback-panel" style="margin-top: 15px;">
+                <div class="feedback-content" id="feedback-text">אנא בחרי בדלת או פתרי את הקוד...</div>
+                <div class="feedback-action hidden" id="feedback-action-area">
+                  <button id="btn-next-question" class="btn btn-primary btn-large">לפתח את הדלת ➡️</button>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- 4. VICTORY SCREEN -->
+          <div class="screen welcome-screen" id="screen-victory">
+            <div class="glass-card victory-card">
+              <div class="victory-seal">🏆</div>
+              <h1 class="victory-title">הסימולציה הושלמה בהצלחה!</h1>
+              <p class="game-subtitle" style="margin-bottom: 10px;">עברת את כל 8 שערי הבקרה בבטחה וניווטת בהצלחה דרך דילמות המחר!</p>
+
+              <!-- Certificate of Completion -->
+              <div class="certificate-container">
+                <div class="cert-border">
+                  <h2 class="cert-title">תעודת הסמכה קלינית</h2>
+                  <p class="cert-subtitle">כנס "כל ישראל אחים" - 01.07.2026</p>
+                  <p class="cert-name">מומחית אתיקה ו-AI בסיעוד</p>
+                  <p class="cert-body">
+                    תעודה זו מוענקת לאחות המנהיגה שפיצחה את חדר הבקרה התלת-ממדי, 
+                    שמרה על בטיחות המטופלים ואיזנה בצורה מושלמת בין רגולציית משרד הבריאות, 
+                    מחשבת ההלכה ופיקוח נפש, לבין מנועי החישוב המהפכניים של הבינה המלאכותית.
+                  </p>
+                  <div class="cert-footer">
+                    <div class="cert-sign">
+                      <span class="sign-line">נתנאל פוקסברומר</span>
+                      <span class="sign-title">מנהל קהילת האחיות בישראל</span>
+                    </div>
+                    <div class="cert-date">
+                      <span class="date-line">01.07.2026</span>
+                      <span class="sign-title">תאריך הכנס</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Final Secret Code -->
+              <div class="final-code-panel">
+                <h3>קוד הפיקוד הסודי של האתגר:</h3>
+                <div id="final-code-value" class="code-value">HUMAN IN THE LOOP</div>
+              </div>
+
+              <button id="btn-restart" class="btn btn-primary btn-large">נסה שוב 🔁</button>
+            </div>
+          </div>
+
+          <!-- 5. GAME OVER / FAIL SCREEN -->
+          <div class="screen welcome-screen" id="screen-fail">
+            <div class="glass-card fail-card">
+              <div class="victory-seal" style="filter: grayscale(1) opacity(0.5);">🚨</div>
+              <h1 class="fail-title">התראת קוד אדום: המערכת קרסה!</h1>
+              <p class="fail-desc">
+                אחד מהמדדים החיוניים של חדר הבקרה (בטיחות קלינית או אתיקה והלכה) ירד ל-0%. 
+                לא ניתן להפעיל מערכות AI רפואיות במחלקה כאשר שלומם של המטופלים או ערכי המקצוע נמצאים בסכנה קריטית.
+              </p>
+              
+              <div class="stats-summary" style="display: flex; gap: 15px; justify-content: center; margin: 15px 0;">
+                <div class="stat-box" style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06); padding: 12px 20px; border-radius: 8px;">
+                  <div style="font-size: 0.75rem; color: #64748b; font-family: var(--font-hud);">בטיחות קלינית סופית</div>
+                  <div style="font-size: 1.4rem; font-weight: 700; color: var(--neon-rose); font-family: var(--font-hud);" id="final-safety-fail">0%</div>
+                </div>
+                <div class="stat-box" style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06); padding: 12px 20px; border-radius: 8px;">
+                  <div style="font-size: 0.75rem; color: #64748b; font-family: var(--font-hud);">אתיקה והלכה סופית</div>
+                  <div style="font-size: 1.4rem; font-weight: 700; color: var(--neon-rose); font-family: var(--font-hud);" id="final-ethics-fail">0%</div>
+                </div>
+              </div>
+
+              <button id="btn-restart-fail" class="btn btn-large" style="background: linear-gradient(135deg, var(--neon-rose), var(--neon-purple)); color: #fff; box-shadow: var(--glow-rose);">אתחל שרת בקרה מחדש 🔁</button>
+            </div>
           </div>
 
         </div>
@@ -265,9 +306,15 @@
 
     </div>
 
-    <!-- Footer info -->
+    <!-- Transition Portal Overlay -->
+    <div id="transition-overlay" class="hidden">
+      <div class="transition-bg"></div>
+      <div class="transition-title">עובר לחדר הבא...</div>
+    </div>
+
+    <!-- Footer -->
     <footer>
-      <span>CONFERENCE DATE: 01.07.2026 // LOC: NEVE HORIM JERUSALEM</span>
+      <span>DATE: 01.07.2026 // NEVE HORIM GERUSALEM // כנס כל ישראל אחים</span>
     </footer>
 
   </div>
