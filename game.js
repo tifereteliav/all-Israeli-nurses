@@ -2,12 +2,12 @@
 const state = {
   currentQuestionIndex: 0,
   soundEnabled: true,
-  selections: new Array(7).fill(null), // tracks chosen door index (0, 1, 2) for each question (7 questions now)
+  selections: new Array(8).fill(null), // tracks chosen door index (0, 1, 2) for each question (8 questions now)
   activeSelectionActive: true,
   puzzleSelections: [] // tracks selected node indices for puzzle questions
 };
 
-// 7 Questions Database (shuffled correctness, no Wegovy/SGLT2, removed key icon, changed משל to סיפור)
+// 8 Questions Database (shuffled correctness, mixed nodes for Q7, new Anthropic Q5)
 const questionsData = [
   {
     indexLabel: "דלת 1: חזון הרמב\"ם (המאה ה-12)",
@@ -98,7 +98,29 @@ const questionsData = [
     ]
   },
   {
-    indexLabel: "דלת 5: סייבר ומערכת הבריאות בישראל (יוני 2026)",
+    indexLabel: "דלת 5: דו\"ח אנתרופיק (מרץ 2026)",
+    type: "doors",
+    question: "על פי דו\"ח אנתרופיק ממרץ 2026, מהו הממצא המרכזי בנוגע לשימוש ב-AI בפועל לעומת יכולות המכונה במקצועות הבריאות?",
+    doors: [
+      {
+        answer: "מקצועות הבריאות מציגים את אחוז השימוש בפועל הגבוה ביותר מכלל התעשיות, כאשר צוותי רפואה מטמיעים את כל יכולות הבינה ללא שום עיכוב.",
+        correct: false,
+        explanation: "לא נכון. למעשה, מקצועות הבריאות משתרכים מאחור באימוץ בפועל."
+      },
+      {
+        answer: "הבינה המלאכותית הגיעה למלוא מיצוי יכולותיה בפועל במרפאות, ואין עוד פער בין מה שהמערכת מסוגלת לעשות לבין מה שהיא מבצעת.",
+        correct: false,
+        explanation: "לא נכון. קיים פער משמעותי מאוד בין היכולת הטכנולוגית לבין היישום בפועל."
+      },
+      {
+        answer: "קיים פער משמעותי בין היכולות המוגברות שהבינה מציעה לבין האימוץ והיישום בפועל שלה במקצועות הבריאות, המשתרכים מאחור עקב חסמים רגולטוריים וקליניים.",
+        correct: true,
+        explanation: "נכון מאוד! הדו\"ח מדגיש את הפער הגדול הקיים בבריאות בין פוטנציאל המכונה לבין היישום בשטח."
+      }
+    ]
+  },
+  {
+    indexLabel: "דלת 6: סייבר ומערכת הבריאות בישראל (יוני 2026)",
     type: "doors",
     question: "על רקע עלייה באיומי סייבר ביוני 2026, מהי ההנחיה המיידית של משרד הבריאות לגבי שימוש ב-AI?",
     doors: [
@@ -120,23 +142,23 @@ const questionsData = [
     ]
   },
   {
-    indexLabel: "דלת 6: פרוטוקול הפרומפט הקליני המובנה",
+    indexLabel: "דלת 7: פרוטוקול הפרומפט הקליני המובנה",
     type: "puzzle",
     question: "אתגר שער הבקרה: בחרו את 4 המרכיבים ההכרחיים (לפי חוקי הפרומפטולוגיה הקלינית) לבניית פנייה ביקורתית ומובנית ל-AI:",
     nodes: [
       { name: "הגדרת תפקיד המערכת (Role)", correct: true },
-      { name: "הגדרת המשימה הקלינית (Task)", correct: true },
-      { name: "הקשר רפואי מלא ללא פרטים מזהים (Context)", correct: true },
-      { name: "קביעת מבנה הפלט הרצוי (Format)", correct: true },
       { name: "פרטים מזהים של המטופל (שם מלא, ת.ז)", correct: false },
-      { name: "ברכת נימוסין ממושכת למחשב", correct: false }
+      { name: "הגדרת המשימה הקלינית (Task)", correct: true },
+      { name: "ברכת נימוסין ממושכת למחשב", correct: false },
+      { name: "הקשר רפואי מלא ללא פרטים מזהים (Context)", correct: true },
+      { name: "קביעת מבנה הפלט הרצוי (Format)", correct: true }
     ],
     requiredCount: 4,
     feedbackSuccess: "קוד הפרומפט זוהה! ROLE, TASK, CONTEXT, FORMAT - שילוב מנצח ללא הפרת חיסיון המטופל. השער נפתח!",
     feedbackFail: "קוד שגוי. הזנת פרטים מזהים מפרה חיסיון, וברכות נימוסין אינן רכיב הכרחי ליציבות הפלט. נסו שוב!"
   },
   {
-    indexLabel: "דלת 7: פרוטוקול פעולה מעשי (Human-in-the-Loop)",
+    indexLabel: "דלת 8: פרוטוקול פעולה מעשי (Human-in-the-Loop)",
     type: "puzzle",
     question: "אתגר שער הכספת: בחרו את 3 הפעולות הבטוחות המהוות את קו ההגנה האחרון של האדם (Human-in-the-Loop) בעבודה עם AI:",
     nodes: [
@@ -261,7 +283,7 @@ function init() {
   generateHUDDots();
 }
 
-// Generate the 7 dots in HUD
+// Generate the 8 dots in HUD
 function generateHUDDots() {
   elements.hudDotsContainer.innerHTML = '';
   for (let i = 0; i < questionsData.length; i++) {
@@ -436,6 +458,7 @@ function triggerCorridorTransition() {
     'clinic_scanner.png',
     'clinic_server.png',
     'clinic_icu.png',
+    'clinic_gate.png',
     'clinic_vault.png'
   ];
   
