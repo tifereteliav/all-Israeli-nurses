@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>אתיקה, טכנולוגיה והכליה | אתגר הדלתות התלת-ממדיות</title>
+  <title>מבוא לבינה מלאכותית באחיות | אתגר הדלתות התלת-ממדיות</title>
   <!-- Google Fonts: Assistant for Hebrew, Inter for English -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -19,11 +19,11 @@
     <header id="game-hud" class="hidden">
       <div class="hud-item patient-info">
         <span class="hud-label">נושא:</span>
-        <span class="hud-value highlight">אתיקה, טכנולוגיה והכליה</span>
+        <span class="hud-value highlight">מבוא לבינה מלאכותית באחיות</span>
       </div>
       <div class="hud-item progress-tracker">
         <span class="hud-label">מיקום:</span>
-        <span id="current-door-indicator" class="hud-value">דלת 1 מתוך 8</span>
+        <span id="current-door-indicator" class="hud-value">דלת 1 מתוך 6</span>
         <div class="room-dots" id="hud-dots-container">
           <!-- Dots generated dynamically in game.js -->
         </div>
@@ -59,23 +59,10 @@
       <section id="screen-intro" class="screen hidden">
         <div class="glass-card text-center fade-in">
           <div class="card-badge">תדרוך קליני והשקפה הלכתית</div>
-          <h1 class="game-title">אתיקה, טכנולוגיה והכליה</h1>
-          <p class="game-subtitle">פתרו את שמונת שלבי האתגר הרפואי, ההלכתי והטכנולוגי כדי להוביל את המטופל לטיפול בטוח!</p>
+          <h1 class="game-title">מבוא לבינה מלאכותית באחיות</h1>
+          <p class="game-subtitle">האם אתם מבינים את גודל מהפיכת הבינה המלאכותית? נסו את האתגר הבא<br>עליכם לבחור בדלת הנכונה ביותר בכל שלב.</p>
           
-          <div class="patient-briefing">
-            <h3>תיק מטופל ומסמך רקע</h3>
-            <div class="briefing-grid">
-              <div class="briefing-item">
-                <strong>מצב קליני:</strong> הטמעת מערכות AI מתקדמות כעוזרים רפואיים, וחיזוי והקדמת טיפולים מניעתיים בטיפול קליני מתקדם.
-              </div>
-              <div class="briefing-item">
-                <strong>האתגר:</strong> ניווט בטוח בין ההנחיות החדשות, איומי הסייבר שהשביתו את כלי ה-AI בבתי החולים הממשלתיים, והתאמה להשקפה ההלכתית.
-              </div>
-            </div>
-            <p class="mission-text">
-              <strong>המשימה:</strong> התבססו על נושאי ההרצאה וענו על שאלות האתגר בזמן אמת. בכל שלב, עליכם <strong>לבחור את הדלת הנכונה</strong> (או לפצח את קוד הבקרה) כדי להתקדם במסדרון המרכז הרפואי.
-            </p>
-          </div>
+
 
           <button id="btn-start-game" class="btn btn-primary btn-large">התחל את חדר הבריחה 🚪</button>
         </div>
@@ -85,7 +72,7 @@
       <section id="screen-rooms" class="screen hidden">
         <div class="glass-card">
           <div class="question-header">
-            <span id="question-index-label" class="card-badge">אתגר 1 מתוך 8</span>
+            <span id="question-index-label" class="card-badge">אתגר 1 מתוך 6</span>
           </div>
           
           <!-- Scenario / Question -->
@@ -119,7 +106,7 @@
         <div class="glass-card text-center fade-in">
           <div class="victory-seal">🏆</div>
           <h1 class="victory-title">האתגר הושלם!</h1>
-          <p class="victory-subtitle">סיימתם את כל 8 שלבי ההערכה הקלינית וההלכתית.</p>
+          <p class="victory-subtitle">סיימתם את כל 6 שלבי ההערכה.</p>
           
           <!-- Code reward panel -->
           <div class="final-code-panel">
@@ -131,8 +118,6 @@
           <div class="clinical-summary">
             <h3>סיכום השלבים שעברתם:</h3>
             <ul class="summary-list">
-              <li>✔️ <strong>חזון הרמב"ם</strong> (הבטחת שפע וירידת עמל האדם).</li>
-              <li>✔️ <strong>סיפור הגולם מפראג</strong> (סכנת יצירה תבונית ללא נשמה).</li>
               <li>✔️ <strong>טעות הסוסים</strong> (הבדל מהותי בין פריון שריר לפריון מוח).</li>
               <li>✔️ <strong>שנת המפנה 2025</strong> (מדד ה-AI Applicability Score של מיקרוסופט).</li>
               <li>✔️ <strong>דו"ח אנתרופיק (מרץ 2026)</strong> (הפער בין יכולות הבינה לאימוץ בפועל בבריאות).</li>

@@ -2,59 +2,15 @@
 const state = {
   currentQuestionIndex: 0,
   soundEnabled: true,
-  selections: new Array(8).fill(null), // tracks chosen door index (0, 1, 2) for each question (8 questions now)
+  selections: new Array(6).fill(null), // tracks chosen door index (0, 1, 2) for each question (6 questions now)
   activeSelectionActive: true,
   puzzleSelections: [] // tracks selected node indices for puzzle questions
 };
 
-// 8 Questions Database (shuffled correctness, mixed nodes for Q7 & Q8, final terminology update)
+// 6 Questions Database (shuffled correctness, mixed nodes for Q5 & Q6, final terminology update)
 const questionsData = [
   {
-    indexLabel: "דלת 1: חזון הרמב\"ם (המאה ה-12)",
-    type: "doors",
-    question: "כיצד מתאר הרמב\"ם בספרו \"משנה תורה\" את תקופת ימות המשיח המאפיינת את חזון האוטומציה והשפע?",
-    doors: [
-      {
-        answer: "\"יהיה רעב ומחסור גדול בארץ, ובני האדם יצטרכו לעמול בפרך מבוקר עד ערב כדי למצוא פת לחם ומחיה לבתיהם\"",
-        correct: false,
-        explanation: "לא נכון. הרמב\"ם מתאר מציאות של שפע רב וקלות מציאת פרנסה, ולא רעב או מחסור."
-      },
-      {
-        answer: "\"באותם הימים יהיה נקל מאד על בני האדם למצוא מחיתם, עד שבעמל מעט שיעמול האדם – יגיע לתועלת גדולה... ויארכו חיי בני האדם גם כן\"",
-        correct: true,
-        explanation: "נכון מאוד! זהו הניסוח המדויק המופיע במצגת (הלכות מלכים ומלחמותיהם, פרק י\"ב, הלכה ה')."
-      },
-      {
-        answer: "\"יהיה עידן שבו כל המחלות ייעלמו כליל ולא יהיה עוד צורך ברופאים ובאחיות, והעולם יתנהל על ידי אוטומטים חכמים בלבד\"",
-        correct: false,
-        explanation: "לא נכון. הרמב\"ם לא עוסק באוטומטים אלא בשפע כלכלי ובקלות השגת המחיה שתפנה את בני האדם לחוכמה."
-      }
-    ]
-  },
-  {
-    indexLabel: "דלת 2: סיפור הגולם מפראג (המאה ה-16)",
-    type: "doors",
-    question: "מהו הלקח הפילוסופי-הלכתי של סיפור \"הגולם מפראג\" של המהר\"ל לגבי פיתוח בינה מלאכותית (AI) ללא רוח או אמפתיה?",
-    doors: [
-      {
-        answer: "הגולם מראה כיצד כלי שנוצר מתוך כוונות טובות להגנה, אך בהיעדר מהות ונשמה אנושית מפתח התנהגות הרסנית וקם על יוצרו",
-        correct: true,
-        explanation: "נכון מאוד! סכנת בינה מלאכותית חסרת רגישות אנושית, הפועלת ללא פיקוח מוסרי."
-      },
-      {
-        answer: "הגולם מלמד כי טכנולוגיה ואוטומציה תבונית יכולות להחליף את הרגש והנשמה האנושית בצורה מושלמת ובטוחה",
-        correct: false,
-        explanation: "לא נכון. הסיפור בא להזהיר בדיוק מפני פיתוח כזה, שבו יציר הכפיים קם על יוצרו בהיעדר נשמה."
-      },
-      {
-        answer: "הגולם הוא אוטומט מושלם שאין בו שום סיכון, והוא מעיד על יכולת האדם לברוא מחשב חף מטעויות",
-        correct: false,
-        explanation: "לא נכון. הגולם יצא מכלל שליטה והיה צורך לכבותו (מחיקת האות א' מ-'אמת' להשארת 'מת')."
-      }
-    ]
-  },
-  {
-    indexLabel: "דלת 3: טעות הסוסים (שנת 1900)",
+    indexLabel: "דלת 1: טעות הסוסים (שנת 1900)",
     type: "doors",
     question: "מהי \"טעות הסוסים\" בהיסטוריה של המהפכות הטכנולוגיות וכיצד היא מתקשרת למהפכת ה-AI?",
     doors: [
@@ -76,7 +32,7 @@ const questionsData = [
     ]
   },
   {
-    indexLabel: "דלת 4: מהפכת 2025 ודו\"ח מיקרוסופט",
+    indexLabel: "דלת 2: מהפכת 2025 ודו\"ח מיקרוסופט",
     type: "doors",
     question: "על פי דו\"ח מיקרוסופט (Working with AI, אוגוסט 2025), כיצד מדרג מדד ה-AI Applicability Score את מקצועות שוק העבודה?",
     doors: [
@@ -98,7 +54,7 @@ const questionsData = [
     ]
   },
   {
-    indexLabel: "דלת 5: דו\"ח אנתרופיק (מרץ 2026)",
+    indexLabel: "דלת 3: דו\"ח אנתרופיק (מרץ 2026)",
     type: "doors",
     question: "על פי דו\"ח אנתרופיק ממרץ 2026, מהו הממצא המרכזי בנוגע לשימוש ב-AI בפועל לעומת יכולות המכונה במקצועות הבריאות?",
     doors: [
@@ -120,7 +76,7 @@ const questionsData = [
     ]
   },
   {
-    indexLabel: "דלת 6: סייבר ומערכת הבריאות בישראל (יוני 2026)",
+    indexLabel: "דלת 4: סייבר ומערכת הבריאות בישראל (יוני 2026)",
     type: "doors",
     question: "על רקע עלייה באיומי סייבר ביוני 2026, מהי ההנחיה המיידית של משרד הבריאות לגבי שימוש ב-AI?",
     doors: [
@@ -142,7 +98,7 @@ const questionsData = [
     ]
   },
   {
-    indexLabel: "דלת 7: פרוטוקול הפרומפט הקליני המובנה",
+    indexLabel: "דלת 5: פרוטוקול הפרומפט הקליני המובנה",
     type: "puzzle",
     question: "אתגר שער הבקרה: בחרו את 4 המרכיבים ההכרחיים (לפי חוקי הפרומפטולוגיה הקלינית) לבניית פנייה ביקורתית ומובנית ל-AI:",
     nodes: [
@@ -158,7 +114,7 @@ const questionsData = [
     feedbackFail: "קוד שגוי. הזנת פרטים מזהים מפרה חיסיון, וברכות נימוסין אינן רכיב הכרחי ליציבות הפלט. נסו שוב!"
   },
   {
-    indexLabel: "דלת 8: פרוטוקול פעולה מעשי (Human-in-the-Loop)",
+    indexLabel: "דלת 6: פרוטוקול פעולה מעשי (Human-in-the-Loop)",
     type: "puzzle",
     question: "אתגר שער הכספת: בחרו את 3 הפעולות שבהן האחים והאחיות מהווים את קו ההגנה האחרון (Human-in-the-Loop) בעבודה עם AI:",
     nodes: [
